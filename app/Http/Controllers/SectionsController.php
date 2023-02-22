@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\sections;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\invoices;
+use App\Models\invoice_attachments;
+use App\Models\invoices_details;
 
 class SectionsController extends Controller
 {

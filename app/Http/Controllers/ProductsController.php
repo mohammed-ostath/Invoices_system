@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\products;
 use App\Models\sections;
+
 use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Auth;
+
 
 class ProductsController extends Controller
 {
