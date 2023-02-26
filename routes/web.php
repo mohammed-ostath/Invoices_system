@@ -67,6 +67,10 @@ Route::post('/Status_Update/{id}', 'InvoicesController@Status_Update')->name('St
 Route::get('/Print_invoice/{id}','InvoicesController@Print_invoice');
 Route::get('export_invoices', 'InvoicesController@export');
 
+Route::get('MarkAsRead_all','InvoicesController@MarkAsRead_all')->name('MarkAsRead_all');
+Route::get('unreadNotifications_count', 'InvoicesController@unreadNotifications_count')->name('unreadNotifications_count');
+Route::get('unreadNotifications', 'InvoicesController@unreadNotifications')->name('unreadNotifications');
+
 
 
 
