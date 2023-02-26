@@ -10,15 +10,16 @@ use Illuminate\Notifications\Notification;
 class AddInvoice extends Notification
 {
     use Queueable;
+    private $invoice_id;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($invoice_id)
     {
-        //
+        $this->invoice_id = $invoice_id;
     }
 
     /**
@@ -40,10 +41,12 @@ class AddInvoice extends Notification
      */
     public function toMail($notifiable)
     {
+        $url = 'http://127.0.0.1:8000/InvoicesDetails/'.$this->invoice_id;
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->subject('اضافة فاتورة جديدة')
+                    ->line('اضافة فاتورة جديدة')
+                    ->action('عرض الفاتورة', $url)
+                    ->line('شكراً لاستخدامك موقع شركة الأستاذ للحسابات والفواتير');
     }
 
     /**

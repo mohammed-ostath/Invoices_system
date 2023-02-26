@@ -4,6 +4,7 @@ use App\Models\invoice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\AttachmentsController;
@@ -26,6 +27,18 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('users', 'UserController');
+    Route::resource('roles', 'RoleController');
+});
+Route::get('invoices_report','InvoicesReportController@index');
+Route::post('Search_invoices','InvoicesReportController@Search_invoices');
+
+Route::get('customers_report', 'CustomersReportController@index')->name("customers_report");
+Route::post('Search_customers', 'CustomersReportController@Search_customers');
+
+
 Route::resource('Archive', 'InvoiceArchiveController');
 Route::get('Invoice_UnPaid',    [InvoicesController::class, 'Invoice_UnPaid' ] );
 Route::get('invoice_paid',    [InvoicesController::class, 'invoice_paid' ] );
@@ -44,11 +57,11 @@ Route::get('download/{invoice_number}/{file_name}', 'InvoicesDetailsController@g
 Route::get('View_file/{invoice_number}/{file_name}', 'InvoicesDetailsController@open_file');
 Route::post('delete_file', 'InvoicesDetailsController@destroy')->name('delete_file');
 Route::get('/{page}', 'AdminController@index');
-Route::resource('InvoiceAttachments', 'InvoiceAttachmentsController');// Video 15
-Route::get('/edit_invoice/{id}', [InvoicesController::class, 'edit']);// Video 15
+Route::resource('InvoiceAttachments', 'InvoiceAttachmentsController');
+Route::get('/edit_invoice/{id}', [InvoicesController::class, 'edit']);
 // Route::get('/edit_invoice/{id}', 'InvoicesController@edit');
-Route::get('/Status_show/{id}','InvoicesController@show')->name('Status_show');// Video 17
-Route::post('/Status_Update/{id}', 'InvoicesController@Status_Update')->name('Status_Update');// Video 17
+Route::get('/Status_show/{id}','InvoicesController@show')->name('Status_show');
+Route::post('/Status_Update/{id}', 'InvoicesController@Status_Update')->name('Status_Update');
 // Route::get('archive', [InvoiceArchiveController::class, 'archive']);
 // Route::get('Archive', 'InvoiceArchiveController');
 Route::get('/Print_invoice/{id}','InvoicesController@Print_invoice');

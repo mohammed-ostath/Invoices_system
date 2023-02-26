@@ -27,7 +27,26 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $chartjs = app()->chartjs
+         ->name('barChartTest')
+         ->type('bar')
+         ->size(['width' => 350, 'height' => 200])
+         ->labels(['الفواتير الغير مدفوعة', 'الفواتير المدفوعة'])
+         ->datasets([
+             [
+                 "label" => "الفواتير الغير مدفوعة",
+                 'backgroundColor' => ['#ec524b', '#f39233'], //المدفوعةجزئيا + الغير مدفوعة
+                 'data' => [50, 59]
+             ],
+             [
+                 "label" => "الفواتير المدفوعة",
+                 'backgroundColor' => ['#b8de6f', '#120078'], // المدفوعة + الاجمالي
+                 'data' => [65, 12]
+             ]
+         ])
+         ->options([]);
+
+           return view('home', compact('chartjs'));
     }
 
     public function getproducts($id)

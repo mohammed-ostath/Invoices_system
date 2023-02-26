@@ -1,17 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Controllers\User;
+use App\Models\User;
 use App\Models\invoices;
 use App\Models\sections;
-use App\Models\invoice_attachments;
-use App\Models\invoices_details;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Http\Controllers\UserController;
 use App\Exports\InvoicesExport;
+use App\Models\invoices_details;
+use App\Notifications\AddInvoice;
+use Illuminate\Support\Facades\DB;
+use App\Models\invoice_attachments;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
 
 class InvoicesController extends Controller
 {
@@ -102,6 +105,11 @@ class InvoicesController extends Controller
 
         //    $user = User::first();
         //    Notification::send($user, new AddInvoice($invoice_id));
+
+        $user = User::get();  // FOR ALL USERS
+        // $user = User::find(  Auth::user()->id  );  // FOR CREATOR
+        $invoice_id = invoices::latest()->first();
+        Notification::send($user, new AddInvoice($invoice_id));
 
         // $user = User::get();
         // $invoices = invoices::latest()->first();
